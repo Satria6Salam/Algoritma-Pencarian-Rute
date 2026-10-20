@@ -31,7 +31,7 @@ Seluruh algoritma dalam proyek ini mematuhi 4 aturan dasar pencarian berikut:
 
 ## 🗺️ Peta Graf & Koordinat Grid
 
-```text
+text
 ==================================================
       PETA RUTE GRID DI TERMINAL (ASCII ART)      
 ==================================================
