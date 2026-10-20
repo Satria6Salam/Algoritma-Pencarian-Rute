@@ -1,53 +1,255 @@
-🗺️ Pathfinding Search Algorithms Visualizer
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathfinding Algorithms Simulation & Visualization</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --code-bg: #0f172a;
+            --code-text: #f8fafc;
+            --accent: #10b981;
+        }
 
-Simulasi & Visualisasi Algoritma Pencarian Rute (BFS, DFS, UCS, Greedy, A)*
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-📌 Daftar Isi
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
 
-Tentang Proyek
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+        }
 
-Aturan Penelusuran (Search Rules)
+        header {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
 
-Representasi Graf & Peta
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-Algoritma yang Diimplementasikan
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+        }
 
-Tabel Perbandingan Hasil
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
 
-Panduan Instalasi & Penggunaan
+        h2 {
+            font-size: 1.4rem;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
 
-Struktur Proyek
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.95rem;
+        }
 
-Lisensi
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
 
-📖 Tentang Proyek
+        th {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            font-weight: 600;
+        }
 
-Proyek ini bertujuan untuk mensimulasikan, membandingkan, dan memvisualisasikan performa 5 algoritma pencarian rute populer dalam ranah kecerdasan buatan (Uninformed dan Informed Search).
+        tr:hover {
+            background-color: #f8fafc;
+        }
 
-Setiap eksekusi algoritma akan menghasilkan:
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
 
-Log Terminal Rinci: Menampilkan tahapan evaluasi node, biaya kumulatif, dan isi Frontier pada setiap step.
+        .badge-uninformed {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
 
-Visualisasi Gambar Grafik (PNG): Gambar graf otomatis disimpan pada setiap tahap eksekusi menggunakan NetworkX dan Matplotlib.
+        .badge-informed {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
 
-Peta ASCII Art: Ditampilkan di terminal sebagai referensi visual awal.
+        ol, ul {
+            padding-left: 24px;
+            margin-bottom: 16px;
+        }
 
-🎯 Aturan Penelusuran (Search Rules)
+        li {
+            margin-bottom: 8px;
+        }
 
-Seluruh algoritma yang dikembangkan mematuhi 4 aturan dasar pencarian berikut:
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.9rem;
+            margin: 16px 0;
+            line-height: 1.5;
+        }
 
-🥇 Prioritas Terkecil: Pilih kandidat dengan nilai prioritas paling kecil ($f(n)$, $g(n)$, atau $h(n)$).
+        code {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
 
-🔤 Tie-Breaking Abjad: Jika terdapat nilai prioritas yang sama, pilih node berdasarkan urutan abjad/alfabet (A-Z).
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
 
-🏁 Goal Test saat Ekstraksi: Pemeriksaan titik tujuan (Goal Check) dilakukan setelah kandidat diekstrak dari Frontier, bukan saat dimasukkan.
+        .formula-box {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+            color: #1e40af;
+        }
 
-🔄 Update $g(n)$ & Parent: Khusus untuk $A^*$, perbarui nilai $g(n)$ dan parent node jika ditemukan jalur baru yang lebih murah.
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
 
-🗺️ Representasi Graf & Peta
+<div class="container">
 
-Graf rute terdiri dari 7 node (S hingga G) dengan bobot ruas jalan (edge weights) dan koordinat posisi $(X, Y)$ sebagai berikut:
+    <header>
+        <h1>🧭 Pathfinding Algorithms Simulation</h1>
+        <p>Aplikasi simulasi dan visualisasi interaktif 5 algoritma pencarian rute menggunakan Python, NetworkX, dan Matplotlib.</p>
+    </header>
 
+    <!-- SECTION 1: ALGORITMA -->
+    <div class="card">
+        <h2>🚀 Algoritma yang Diimplementasikan</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Algoritma</th>
+                    <th>Jenis</th>
+                    <th>Fungsi Evaluasi</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>BFS</strong> (Breadth-First Search)</td>
+                    <td><span class="badge badge-uninformed">Uninformed</span></td>
+                    <td>-</td>
+                    <td>Mencari rute dengan jumlah langkah (edge) tersingkat.</td>
+                </tr>
+                <tr>
+                    <td><strong>DFS</strong> (Depth-First Search)</td>
+                    <td><span class="badge badge-uninformed">Uninformed</span></td>
+                    <td>-</td>
+                    <td>Menelusuri cabang hingga kedalaman maksimal (backtracking).</td>
+                </tr>
+                <tr>
+                    <td><strong>UCS</strong> (Uniform Cost Search)</td>
+                    <td><span class="badge badge-uninformed">Uninformed</span></td>
+                    <td><code>g(n)</code></td>
+                    <td>Menjamin rute dengan total biaya (cost) aktual paling murah.</td>
+                </tr>
+                <tr>
+                    <td><strong>Greedy</strong> Best-First Search</td>
+                    <td><span class="badge badge-informed">Informed</span></td>
+                    <td><code>h(n)</code></td>
+                    <td>Memilih node berdasarkan estimasi jarak terdekat ke Goal.</td>
+                </tr>
+                <tr>
+                    <td><strong>A* Search</strong> (A-Star)</td>
+                    <td><span class="badge badge-informed">Informed</span></td>
+                    <td><code>f(n) = g(n) + h(n)</code></td>
+                    <td>Menggabungkan biaya aktual dan heuristik untuk rute optimal.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 2: ATURAN PENELUSURAN -->
+    <div class="card">
+        <h2>📌 Aturan Penelusuran (Searching Rules)</h2>
+        <ol>
+            <li><strong>Prioritas Terkecil:</strong> Selalu memilih kandidat dengan nilai evaluasi/prioritas paling kecil dari Frontier.</li>
+            <li><strong>Aturan Abjad (Tie-Breaking):</strong> Jika terdapat nilai prioritas yang sama, kandidat dipilih berdasarkan urutan alfabet (A ke Z).</li>
+            <li><strong>Pemeriksaan Goal:</strong> Pemeriksaan titik tujuan (Goal) dilakukan saat kandidat diekstrak dari Frontier.</li>
+            <li><strong>Pembaruan A*:</strong> Pada algoritma A*, nilai <code>g(n)</code> dan parent diperbarui jika ditemukan rute baru yang lebih murah.</li>
+        </ol>
+
+        <div class="formula-box">
+            <strong>💡 Rumus Heuristik Manhattan Distance:</strong><br>
+            <code>h(n) = |x<sub>G</sub> - x<sub>n</sub>| + |y<sub>G</sub> - y<sub>n</sub>|</code>
+        </div>
+    </div>
+
+    <!-- SECTION 3: PETA GRAF -->
+    <div class="card">
+        <h2>🗺️ Peta Graf & Koordinat Grid</h2>
+        <pre>
 ==================================================
       PETA RUTE GRID DI TERMINAL (ASCII ART)      
 ==================================================
@@ -58,219 +260,91 @@ Graf rute terdiri dari 7 node (S hingga G) dengan bobot ruas jalan (edge weights
           \                                   /   
            '-----> [B] --> [D] --> [E] ------'    
              (1)       (1)     (1)      (1)       
-==================================================
-
-
-📏 Rumus Heuristik: Manhattan Distance
-
-Untuk algoritma Informed Search (Greedy & $A^*$), fungsi heuristik dihitung secara dinamis terhadap Goal $G(4,1)$:
-
-$$h(n) = \vert{}x_G - x_n\vert{} + \vert{}y_G - y_n\vert{}$$
-
-Node $n$
-
-Koordinat $(X, Y)$
-
-$h(n)$ Ke Goal $G(4,1)$
-
-S
-
-$(0, 1)$
-
-$\vert{}4-0\vert{} + \vert{}1-1\vert{} = \mathbf{4}$
-
-A
-
-$(1, 2)$
-
-$\vert{}4-1\vert{} + \vert{}1-2\vert{} = \mathbf{4}$
-
-B
-
-$(1, 0)$
-
-$\vert{}4-1\vert{} + \vert{}1-0\vert{} = \mathbf{4}$
-
-C
-
-$(2, 2)$
-
-$\vert{}4-2\vert{} + \vert{}1-2\vert{} = \mathbf{3}$
-
-D
-
-$(2, 0)$
-
-$\vert{}4-2\vert{} + \vert{}1-0\vert{} = \mathbf{3}$
-
-E
-
-$(3, 0)$
-
-$\vert{}4-3\vert{} + \vert{}1-0\vert{} = \mathbf{2}$
-
-G
-
-$(4, 1)$
-
-$\vert{}4-4\vert{} + \vert{}1-1\vert{} = \mathbf{0}$
-
-🚀 Algoritma yang Diimplementasikan
-
-1. 🔵 Breadth-First Search (BFS)
-
-Struktur Data: Queue (FIFO)
-
-Fokus: Menjelajah secara melebar level demi level untuk mencari jumlah langkah (edge) tersingkat.
-
-2. 🟢 Depth-First Search (DFS)
-
-Struktur Data: Stack (LIFO)
-
-Fokus: Menjelajah sedalam mungkin pada satu cabang sebelum melakukan backtracking.
-
-3. 🟡 Uniform Cost Search (UCS)
-
-Struktur Data: Priority Queue (Berdasarkan $g(n)$)
-
-Fokus: Mengeksplorasi rute berdasarkan total akumulasi biaya termurah dari titik awal.
-
-4. 🟠 Greedy Best-First Search
-
-Struktur Data: Priority Queue (Berdasarkan $h(n)$)
-
-Fokus: Memilih langkah yang 'terlihat' paling dekat dengan Goal berdasarkan nilai heuristik.
-
-5. 🟣 A* (A-Star) Search
-
-Struktur Data: Priority Queue (Berdasarkan $f(n) = g(n) + h(n)$)
-
-Fokus: Menggabungkan biaya aktual $g(n)$ dan perkiraan heuristik $h(n)$ untuk menjamin pencarian yang optimal dan efisien.
-
-📊 Tabel Perbandingan Hasil
-
-Algoritma
-
-Rute Ditemukan
-
-Total Langkah
-
-Biaya Aktual ($g$)
-
-Optimal?
-
-Complete?
-
-BFS
-
-S -> A -> C -> G
-
-3
-
-7
-
-❌
-
-✅
-
-DFS
-
-S -> A -> C -> G
-
-3
-
-7
-
-❌
-
-❌
-
-UCS
-
-S -> B -> D -> E -> G
-
-4
-
-4
-
-✅
-
-✅
-
-Greedy BFS
-
-S -> A -> C -> G
-
-3
-
-7
-
-❌
-
-❌
-
-A Search*
-
-S -> B -> D -> E -> G
-
-4
-
-4
-
-✅
-
-✅
-
-💻 Panduan Instalasi & Penggunaan
-
-Prerequisites
-
-Pastikan Python versi 3.10 atau lebih baru sudah terinstal di komputer Anda.
-
-1. Clone & Setup Repository
-
-git clone https://github.com/username/pathfinding-ai-simulation.git
-cd pathfinding-ai-simulation
-
-
-2. Install Dependency
-
-Instal pustaka pustaka pendukung networkx dan matplotlib:
-
-pip install networkx matplotlib
-
-
-3. Jalankan Program
-
-Jalankan skrip algoritma yang ingin Anda simulasikan:
-
-# Menjalankan BFS
-python bfs_search.py
-
-# Menjalankan DFS
-python dfs_search.py
-
-# Menjalankan UCS
-python ucs_search.py
-
-# Menjalankan Greedy Best-First
-python greedy_search.py
-
-# Menjalankan A* Search
+==================================================</pre>
+        <p><strong>Koordinat (X, Y) Node:</strong> <code>S(0,1)</code>, <code>A(1,2)</code>, <code>B(1,0)</code>, <code>C(2,2)</code>, <code>D(2,0)</code>, <code>E(3,0)</code>, <code>G(4,1)</code></p>
+    </div>
+
+    <!-- SECTION 4: RINGKASAN HASIL -->
+    <div class="card">
+        <h2>📊 Ringkasan Hasil Perbandingan</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>BFS</th>
+                    <th>DFS</th>
+                    <th>UCS</th>
+                    <th>Greedy</th>
+                    <th>A* Search</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Rute Ditemukan</strong></td>
+                    <td>S->A->C->G</td>
+                    <td>S->A->C->G</td>
+                    <td>S->B->D->E->G</td>
+                    <td>S->A->C->G</td>
+                    <td>S->B->D->E->G</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Langkah</strong></td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>3</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Biaya g(n)</strong></td>
+                    <td>7</td>
+                    <td>7</td>
+                    <td><strong>4</strong></td>
+                    <td>7</td>
+                    <td><strong>4</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Struktur Data</strong></td>
+                    <td>Queue (FIFO)</td>
+                    <td>Stack (LIFO)</td>
+                    <td>Priority Queue</td>
+                    <td>Priority Queue</td>
+                    <td>Priority Queue</td>
+                </tr>
+                <tr>
+                    <td><strong>Optimalitas</strong></td>
+                    <td>Langkah</td>
+                    <td>Tidak</td>
+                    <td>Biaya</td>
+                    <td>Tidak</td>
+                    <td><strong>Langkah & Biaya</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 5: CARA MENJALANKAN -->
+    <div class="card">
+        <h2>🎮 Cara Menjalankan Program</h2>
+        <p>Instalasi pustaka prasyarat:</p>
+        <pre>pip install networkx matplotlib</pre>
+        <p>Menjalankan skrip Python:</p>
+        <pre>
+# Jalankan simulasi A* Search
 python astar_search.py
 
+# Jalankan simulasi Greedy Best-First Search
+python greedy_search.py
 
-📁 Struktur Proyek
+# Jalankan simulasi UCS
+python ucs_search.py</pre>
+    </div>
 
-├── src/
-│   ├── bfs_search.py        # Implementation of BFS Algorithm
-│   ├── dfs_search.py        # Implementation of DFS Algorithm
-│   ├── ucs_search.py        # Implementation of UCS Algorithm
-│   ├── greedy_search.py     # Implementation of Greedy Best-First
-│   └── astar_search.py      # Implementation of A* Search
-└── README.md                # Project documentation
+    <footer>
+        <p>Proyek Simulasi Algoritma Pencarian Rute &copy; 2026 — Kecerdasan Buatan (AI)</p>
+    </footer>
 
+</div>
 
-📜 Lisensi
-
-Proyek ini dibuat untuk keperluan akademik dan didistribusikan di bawah MIT License. Silakan gunakan dan kembangkan kodenya secara bebas.
+</body>
+</html>
