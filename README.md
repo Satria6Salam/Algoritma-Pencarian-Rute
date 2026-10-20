@@ -1,4 +1,3 @@
-```markdown
 # 🧭 Pathfinding Algorithms Simulation & Visualization
 
 Aplikasi simulasi dan visualisasi interaktif untuk algoritma pencarian rute berbasis **Python**, **NetworkX**, dan **Matplotlib**. Proyek ini mengimplementasikan 5 algoritma pencarian kecerdasan buatan (*Artificial Intelligence*) lengkap dengan visualisasi *graph* langkah demi langkah, pencatatan status *Frontier*, dan kalkulasi biaya perjalanan secara *real-time*.
@@ -44,8 +43,6 @@ Seluruh algoritma dalam proyek ini mematuhi 4 aturan dasar pencarian berikut:
            '-----> [B] --> [D] --> [E] ------'    
              (1)       (1)     (1)      (1)       
 ==================================================
-
-```
 
 **Titik Koordinat $(X, Y)$ Node:**
 
