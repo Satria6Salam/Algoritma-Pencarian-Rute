@@ -1,3 +1,6 @@
+Teks Markdown untuk `README.md` yang telah dirapikan struktur baris, blok kode, LaTeX, dan pemisah elemennya agar tampil sempurna di GitHub:
+
+```markdown
 # 🧭 Pathfinding Algorithms Simulation & Visualization
 
 Aplikasi simulasi dan visualisasi interaktif untuk algoritma pencarian rute berbasis **Python**, **NetworkX**, dan **Matplotlib**. Proyek ini mengimplementasikan 5 algoritma pencarian kecerdasan buatan (*Artificial Intelligence*) lengkap dengan visualisasi *graph* langkah demi langkah, pencatatan status *Frontier*, dan kalkulasi biaya perjalanan secara *real-time*.
@@ -31,7 +34,7 @@ Seluruh algoritma dalam proyek ini mematuhi 4 aturan dasar pencarian berikut:
 
 ## 🗺️ Peta Graf & Koordinat Grid
 
-text
+```text
 ==================================================
       PETA RUTE GRID DI TERMINAL (ASCII ART)      
 ==================================================
@@ -43,6 +46,8 @@ text
            '-----> [B] --> [D] --> [E] ------'    
              (1)       (1)     (1)      (1)       
 ==================================================
+
+```
 
 **Titik Koordinat $(X, Y)$ Node:**
 
